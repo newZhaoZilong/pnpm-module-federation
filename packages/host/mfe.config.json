@@ -1,0 +1,12 @@
+{
+    "dataMap":{
+        "scope":"dataMap",
+        "routerPrefix":"dataMap",
+        "url":"http://localhost:3001/remoteEntry.js"
+    },
+    "host":{
+        "scope":"host",
+        "routerPrefix":"host",
+        "url":"http://localhost:3000/remoteEntry.js"
+    }
+}

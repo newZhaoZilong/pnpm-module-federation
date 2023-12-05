@@ -1,11 +1,28 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    导航栏
   </nav>
+  <Button/>
   <router-view />
 </template>
+<script lang="ts">
 
+import { defineComponent } from "vue";
+//@ts-ignore
+import Button from "dataMap/Button";
+// import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+
+export default defineComponent({
+  name: "HomeView",
+  components: {
+  
+    Button
+  },
+  setup(){
+    console.log('App1')
+  }
+});
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
