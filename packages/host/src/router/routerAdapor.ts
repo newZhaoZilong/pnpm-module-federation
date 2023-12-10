@@ -58,24 +58,27 @@ async function getScopeRoutes(app: any | null) {
     if (app) {
         await asyncLoadRemote(app.url as string);
         const scopeRoutes = await loadComponent(app.scope || '', './router')();
-        return {
-            path: '/' + app.routerPrefix,
-            name: app.routerPrefix,
-            //@ts-ignore
-            component: () => import('./RouterView'),
-            children: (scopeRoutes?.default ?? []).map((o: any) => ({
-                ...o,
-                name: o.name || `${app.routerPrefix}_${o.path}`
-            }))
-        }
+        // return {
+        //     path: '/' + app.routerPrefix,
+        //     name: app.routerPrefix,
+        //     //@ts-ignore
+        //     component: () => import('./RouterView'),
+        //     children: (scopeRoutes?.default ?? []).map((o: any) => ({
+        //         ...o,
+        //         name: o.name || `${app.routerPrefix}_${o.path}`
+        //     }))
+        // }
+ 
+        return scopeRoutes?.default ?? [];
     }
-    return {
-        name: '',
-        path: '',
-        children: [],
-         //@ts-ignore
-        component: () => import('./RouterView'),
-    }
+    // return {
+    //     name: '',
+    //     path: '',
+    //     children: [],
+    //      //@ts-ignore
+    //     component: () => import('./RouterView'),
+    // }
+    return []
 }
 
 function adaptForVue(allAppRoutes: any) {
@@ -84,7 +87,9 @@ function adaptForVue(allAppRoutes: any) {
         routes,
     });
     router.beforeEach(async (to) => {
-        let has = router.getRoutes().some((item) => item.path === to.path);
+        allAppRoutes = router.getRoutes();
+        //@ts-ignore
+        let has = allAppRoutes.some((item) => item.path === to.path);
         console.log('router.getRoutes',router.getRoutes());
         const { matched, fullPath } = to;
         console.log(to.fullPath);
@@ -101,7 +106,13 @@ function adaptForVue(allAppRoutes: any) {
                         has = true;
                         console.log('scopeRoutes',scopeRoutes);
                         console.log('router.getRoutes',router.getRoutes());
-                        router.addRoute(scopeRoutes);
+                        scopeRoutes.forEach((o:any)=>{
+                            router.addRoute({
+                                ...o,
+                                path:`/${renderApp.routerPrefix}/${o.path}`
+                            });
+                        })
+                        
                       console.log('router.getRoutes',router.getRoutes());
                       return fullPath;
                     } else {
