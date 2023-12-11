@@ -18,7 +18,7 @@ module.exports = defineConfig({
         shared: {
           vue: {
             singleton: true,
-            eager: true,
+            // eager: true,
           },
           'vue-router': {
             singleton: true, // only a single version of the shared module is allowed

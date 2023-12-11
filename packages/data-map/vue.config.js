@@ -7,7 +7,6 @@ module.exports = defineConfig({
   publicPath:'http://localhost:3001/',
   configureWebpack: {
 
-    
     plugins: [
       new ModuleFederationPlugin({
         name: "dataMap",
@@ -24,7 +23,7 @@ module.exports = defineConfig({
         
           vue: {
             singleton: true,
-            eager: true,
+            // eager: true,
           }
         }
       })
